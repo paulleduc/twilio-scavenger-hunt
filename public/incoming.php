@@ -3,6 +3,10 @@
 ini_set('display_errors',1);
 ini_set('display_startup_errors',1);
 error_reporting(-1);
+ini_set("log_errors", 1);
+ini_set("error_log", "/var/www/scavengerhunt/tmp/logs/error.log");
+
+error_log('incoming.php hit!');
 
 require_once('../includes/twilio-php/Services/Twilio.php');
 require_once('../includes/Twilio_Scavenger_Hunt.php');
