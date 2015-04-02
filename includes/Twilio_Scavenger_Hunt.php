@@ -42,16 +42,20 @@ class Twilio_Scavenger_Hunt {
     	}elseif($this->getRequestType() == 'text'){
     		$stage = $this->getCurrentStage();
     		if($stage){
-    			$this->printTwiml($stage->sendTextTwiml($this->getTwilioApi()));
+                if($this->isSolutionRequested()){
+                    $this->sendText($stage->getSolutionMessage());
+                }else{
+                    $this->sendText($stage->getMessage());
+                }
     		}else{
-    			$this->printTwiml($this->invalidCodeTextTwiml());
+    			$this->sendText($this->invalidCodeMessage());
     		}
     	}
     	// do nothing for general web requests...
     }
 
-    public function invalidCodeTextTwiml() {
-        return $this->getTwilioApi()->sms("Sorry, that's not a valid clue code!");
+    public function invalidCodeMessage() {
+        return "Sorry, that's not a valid clue code!";
     }
 
     public function addStage($code, $nextHint, $nextSolution = null, $extraText = null) {
@@ -61,15 +65,30 @@ class Twilio_Scavenger_Hunt {
 
     public function getCurrentStage() {
     	foreach($this->getStages() as $stage) {
-    		if(strtolower($this->getTextContent()) == strtolower($stage->getCode())){
+    		if($this->getStageFromText() == $stage->getCode()){
     			return $stage;
     		}
     	}
     	return null;
     }
 
-    public function getTextContent() {
-    	return $this->getRequestData('Body');
+    public function getStageFromText() {
+        $words = $this->getTextWords();
+        if(count($words)){
+            return strtolower($words[0]);
+        }
+    }
+
+    public function isSolutionRequested() {
+        $words = $this->getTextWords();
+        if(count($words) == 2 && strtolower($words[1]) == 'help'){
+            return true;
+        }
+        return false;
+    }
+
+    public function getTextWords() {
+    	return explode(' ', $this->getRequestData('Body'));
     }
 
     public function playIvr() {
@@ -81,6 +100,11 @@ class Twilio_Scavenger_Hunt {
     		$this->getTwilioApi()->say('No IVR has been set for incoming calls to this number. Goodbye.', array("voice" => "woman"));
     	}
     	$this->printTwiml();
+    }
+
+    public function sendText($message) {
+        $twilioApi->sms($message);
+        $this->printTwiml();
     }
 
     private function printTwiml() {

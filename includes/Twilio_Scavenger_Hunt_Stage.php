@@ -12,7 +12,7 @@ class Twilio_Scavenger_Hunt_Stage {
     public function __construct($position, $code, $nextHint, $nextSolution = null, $extraText = null) {
 
         $this->position = $position;
-        $this->code = $code;
+        $this->code = strtolower($code);
         $this->nextHint = $nextHint;
         $this->nextSolution = $nextSolution;
         $this->extraText = $extraText;
@@ -32,15 +32,18 @@ class Twilio_Scavenger_Hunt_Stage {
         return ($this->position === 0 ? true : false);
     }
 
-    public function sendTextTwiml($twilioApi) {
+    public function getMessage() {
         if($this->isLastStage() || $this->isInitialMessage()){
-            $message = $this->getExtraText();
+            return $this->getExtraText();
         }else{
-            $message = "Clue #" . $this->getPosition() . ":\n\n"
+            return "Next Clue:\n"
                 . $this->getNextHint()
                 . ($this->getExtraText() ? "\n\n" . $this->getExtraText() : "");
         }
-        return $twilioApi->sms($message);
+    }
+
+    public function getSolutionMessage() {
+        return "Next Clue Help:\n" . $this->getNextSolution();
     }
 
     public function getCode() {
