@@ -103,7 +103,7 @@ class Twilio_Scavenger_Hunt {
     }
 
     public function sendText($message) {
-        $twilioApi->sms($message);
+        $this->getTwilioApi()->sms($message);
         $this->printTwiml();
     }
 
