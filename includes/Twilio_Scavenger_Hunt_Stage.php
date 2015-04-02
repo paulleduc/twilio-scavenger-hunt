@@ -43,6 +43,9 @@ class Twilio_Scavenger_Hunt_Stage {
     }
 
     public function getSolutionMessage() {
+        if(!$this->getNextSolution()){
+            return "Sorry! There's no extra help for this one.";
+        }
         return "Next Clue Help:\n" . $this->getNextSolution();
     }
 
@@ -56,6 +59,10 @@ class Twilio_Scavenger_Hunt_Stage {
 
     public function getNextHint() {
         return $this->nextHint;
+    }
+
+    public function getNextSolution() {
+        return $this->nextSolution;
     }
 
     public function getExtraText() {
