@@ -14,11 +14,12 @@ require_once('../includes/Twilio_Scavenger_Hunt_Stage.php');
 
 $scavengerHunt = new Twilio_Scavenger_Hunt();
 
-$scavengerHunt->setIvrText("Hello! Welcome to the unltimate scavenger hunt! Text the word start to this phone number to begin!");
+$scavengerHunt->setIvrText("Hello! Welcome to the ultimate scavenger hunt. Text the word. start. to this phone number to begin. Goodbye.");
+// $scavengerHunt->setIvrAudioFileUrl("http://example.com/some-recording-explaining-the-game.mp3");
 
-$scavengerHunt->addStage("start", "I open at the close1.", "In your closet1.", "Crossword Clue: 6 Across: A strange smell");
-$scavengerHunt->addStage("two", "I open at the close2.", "In your closet2.", "Crossword Clue: 6 Across: A strange smell");
-$scavengerHunt->addStage("three", "I open at the close3.", "In your closet3.", "Crossword Clue: 6 Across: A strange smell");
-$scavengerHunt->addStage("four", "I open at the close4.", "In your closet4.", "Crossword Clue: 6 Across: A strange smell");
+$scavengerHunt->addStage("start", "I'm somewhere never wet", "In the dryer", "Good Luck!");
+$scavengerHunt->addStage("penguin", "You might wear me out", "In your closet");
+$scavengerHunt->addStage("giraffe", "I roll around", "On your computer chair");
+$scavengerHunt->addStage("zebra", null, null, "Congratulations! You finished the scavenger hunt with flying colours!");
 
 $scavengerHunt->processRequest();

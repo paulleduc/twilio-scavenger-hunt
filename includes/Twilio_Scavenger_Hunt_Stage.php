@@ -36,7 +36,7 @@ class Twilio_Scavenger_Hunt_Stage {
         if($this->isLastStage() || $this->isInitialMessage()){
             return $this->getExtraText();
         }else{
-            return "Next Clue:\n"
+            return "Next clue:\n"
                 . $this->getNextHint()
                 . ($this->getExtraText() ? "\n\n" . $this->getExtraText() : "");
         }
@@ -46,7 +46,7 @@ class Twilio_Scavenger_Hunt_Stage {
         if(!$this->getNextSolution()){
             return "Sorry! There's no extra help for this one.";
         }
-        return "Next Clue Help:\n" . $this->getNextSolution();
+        return "Clue help:\n" . $this->getNextSolution();
     }
 
     public function getCode() {
